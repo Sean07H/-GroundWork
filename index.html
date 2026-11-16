@@ -133,6 +133,7 @@ intermediate:['Cossack squats|3|8|10|p','Jump lunges|3|8|10|p','Reverse bridge h
 advanced:['Shrimp squats|4|5|8|ph','Jump squats|3|15|20','Skater jumps|3|10|12|p','Superman holds|3|45|60|s']}}
 };
 const K='bw-log-v1',KB='bw-weight-v1',KS='bw-settings-v1';
+const PUSH_URL='PASTE_YOUR_WORKER_URL_HERE',VAPID_PUB='BK4tuAAJAvfn7TvU1E3sZR1xD3Oh0yh1gb52zsUWzvx6jWOkM8Dm5VmzYRHHYIuyrT16Y9EWcdA6mjCFfVotoio';
 let S={unit:'kg',level:'advanced',rest:90};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KS)||'{}'))}catch(e){}
 const U=()=>S.unit,toU=k=>S.unit==='lb'?Math.round(k*22.0462)/10:k,fromU=v=>S.unit==='lb'?v/2.20462:v;
@@ -288,7 +289,7 @@ function openGuide(n){const g=gd(n),d=$('#gd'),still=matchMedia('(prefers-reduce
   paint(cv,pose(A.map((v,i)=>v+(B[i]-v)*ph),g,ph,mu),cam);raf=requestAnimationFrame(step)};
  raf=requestAnimationFrame(step)}
 const px=t=>{const[n,s,lo,hi,f='']=t.split('|');return{n,s:+s,r:lo==='x'?'max':[+lo,+hi],side:f.includes('p')?1:0,u:f.includes('s')?'sec':'reps',rest:f.includes('h')?150:0}};
-const plan=(day,lv=S.level)=>P[day].e[lv].map(px);
+const plan=(day,lv=S.level)=>P[day].e[lv].map(s=>{const x=px(s);return S.up&&S.up[x.n]?px(S.up[x.n]):x});
 const list=pl=>pl.map(x=>`<div class="ln"><div>${nm(x.n)}</div><div class="mute">${tgt(x)}</div></div>`).join('');
 let log={},bw=[];
 try{log=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
@@ -332,6 +333,20 @@ function home(){
 }
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* Level-up chains: easiest to hardest. Two sessions in a row at the top of every set range offers the next one. */
+const CH=[['Knee push-ups','Push-ups','Wide push-ups','Diamond push-ups','Archer push-ups','One-arm push-up negatives'],
+['Close-grip knee push-ups','Diamond push-ups'],['Knee push-ups, 3-sec lowering','Push-ups'],
+['Pike push-ups, hips high','Pike push-ups','Pike push-ups, 4-sec lowering'],['Pseudo planche push-ups','Planche leans','Tuck planche hold'],
+['Bodyweight squats','Jump squats','Pistol squat negatives','Pistol squats'],['Squat hold','Pistol squat negatives'],['Reverse lunges','Split squats','Jump lunges'],
+['Glute bridges','Glute bridge walkouts','Single-leg glute bridges'],['Calf raises','Single-leg calf raises'],
+['Superman pulls','Superman pulls, 3-sec hold'],['Reverse snow angels','Reverse snow angels, slow'],['Prone Y raises','Prone Y-T-W raises','Prone Y-T-W raises, slow'],
+['Bird dogs','Bear crawl','Army crawl'],['Plank hold','Hollow body hold','Hollow body rocks'],['Dead bugs','V-ups'],['Tucked L-sit','L-sit'],['Hindu push-ups','Pseudo planche push-ups']];
+const nextEx=n=>{for(const c of CH){const i=c.indexOf(n);if(i>=0&&i<c.length-1)return c[i+1]}return null};
+function ready(x){if(x.r==='max')return null;const hs=history(x.n).slice(-2);if(hs.length<2)return null;
+ return hs.every(d=>{const dn=log[d][x.n].filter(s=>s.done);return dn.length>=x.s&&dn.every(s=>s.v>=x.r[1])})?nextEx(x.n):null}
+function promoSpec(x,nx){const f=(x.side?'p':'')+(x.u==='sec'?'s':'')+(x.rest?'h':''),hit=Object.values(P[dayOf(selDate)].e).flat().find(s=>s.split('|')[0]===nx);
+ return hit||`${nx}|${x.s}|${Math.max(3,x.r[0]-4)}|${Math.max(5,x.r[1]-4)}|${f}`}
+function progUI(x,i){const nx=ready(x);return nx?`<div class="hint">Top of the range two sessions in a row. <button class="pill" style="margin:6px 0 0" data-up="${i}">Level up to ${esc(nx)}</button></div>`:''}
 let swapI=-1;
 const todays=()=>{const sw=(log[sd()]||{})._sw||{};return plan(dayOf(selDate)).map((x,i)=>sw[i]?px(sw[i]):x)};
 function swapUI(i,d){const sw=(log[d]||{})._sw||{};let h=`<button class="gb" data-swap="${i}"><span>⇄ ${sw[i]?'Swapped':'Swap'}</span></button>`;
@@ -356,7 +371,7 @@ function session(){
   const rows=Array.from({length:x.s},(_,j)=>{const s=cur[j]||{},ph=lt&&lt.s[j]?lt.s[j].v:(x.r==='max'?'':x.r[0]);
    return `<div class="set"><b>${j+1}</b><input type="number" inputmode="numeric" min="0" aria-label="Set ${j+1} ${u}" data-i="${i}" data-j="${j}" data-f="v" placeholder="${ph}" value="${s.v??''}"><input type="number" inputmode="decimal" min="0" aria-label="Set ${j+1} added ${U()}" data-i="${i}" data-j="${j}" data-f="w" placeholder="+ ${U()}" value="${s.w?toU(s.w):''}"><button class="chk ${s.done?'on':''}" aria-label="Set ${j+1} done" data-i="${i}" data-j="${j}">✓</button></div>`}).join('');
   const dn=cur.filter(s=>s.done).length;
-  h+=`<section class="ex ${dn>=x.s?'complete':''}"><div class="hd"><h3>${nm(x.n)}</h3><span class="chip" style="margin:0">${dn}/${x.s}</span></div><div class="mute">${tgt(x)} · ${swapUI(i,d)}</div>${hint?`<div class="hint">${hint}</div>`:''}${noteHint(x.n)}${rows}<input class="nt" type="text" placeholder="Note for this exercise" aria-label="Note for ${esc(x.n)}" data-note="${i}" value="${esc(((log[d]||{})._notes||{})[x.n]||'')}"></section>`});
+  h+=`<section class="ex ${dn>=x.s?'complete':''}"><div class="hd"><h3>${nm(x.n)}</h3><span class="chip" style="margin:0">${dn}/${x.s}</span></div><div class="mute">${tgt(x)} · ${swapUI(i,d)}</div>${hint?`<div class="hint">${hint}</div>`:''}${progUI(x,i)}${noteHint(x.n)}${rows}<input class="nt" type="text" placeholder="Note for this exercise" aria-label="Note for ${esc(x.n)}" data-note="${i}" value="${esc(((log[d]||{})._notes||{})[x.n]||'')}"></section>`});
  return h+`<button class="go" data-go="finish">Finish workout</button>`;
 }
 
@@ -386,10 +401,27 @@ function body(){
  return `<h1>Bodyweight</h1><div class="hero"><div class="amb">Latest</div><div class="big">${last?toU(last.kg)+' '+U():'No entries yet'}</div>${last?`<div class="mute">${last.d}</div>`:''}<div class="inl"><input id="kg" type="number" inputmode="decimal" step="0.1" placeholder="Weight in ${U()}"><button class="go sm" style="margin:0" data-act="bw">Save</button></div></div>${bw.length?line(bw.map(b=>({d:b.d,v:toU(b.kg)}))):''}`;
 }
 
+const b64=s=>Uint8Array.from(atob((s+'='.repeat((4-s.length%4)%4)).replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+const pushPost=(path,sub,x)=>fetch(PUSH_URL+path,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({sub,...x})});
+async function remOn(time){
+ if(await Notification.requestPermission()!=='granted'){toast('Notifications are blocked');return}
+ const reg=await navigator.serviceWorker.ready,sub=(await reg.pushManager.getSubscription())||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64(VAPID_PUB)});
+ const r=await pushPost('/sub',sub.toJSON(),{time,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,days:Object.keys(P).map(Number)});
+ if(!r.ok)throw 0;S.rem={on:true,time};save();toast('Reminders set for '+time)}
+async function remOff(){const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();
+ if(sub){try{await pushPost('/unsub',sub.toJSON())}catch(e){}await sub.unsubscribe()}S.rem={on:false,time:(S.rem||{}).time||'18:00'};save();toast('Reminders off')}
+function remUI(){
+ const R=S.rem||{on:false,time:'18:00'},ios=/iPhone|iPad/.test(navigator.userAgent)&&!(navigator.standalone||matchMedia('(display-mode: standalone)').matches);
+ let h='<div class="sec">Reminders</div>';
+ if(!('serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window))return h+`<p class="mute">${ios?'On iPhone, add this app to your Home Screen first, then open it from there to turn on reminders.':'This browser does not support push notifications.'}</p>`;
+ if(PUSH_URL.includes('PASTE'))return h+'<p class="mute">Reminders are not set up yet. See SETUP-PUSH.md.</p>';
+ return h+`<p class="mute" style="margin:0 0 10px">A notification on workout days at the time you pick.</p><div class="inl"><input id="remt" type="time" value="${R.time}" aria-label="Reminder time"><button class="go sm" style="margin:0" id="rem">${R.on?'Update':'Turn on'}</button></div>${R.on?'<div class="inl"><button class="go sm alt" id="remtest">Send test</button><button class="go sm alt" id="remoff">Turn off</button></div>':''}`}
+function upUI(){const u=Object.entries(S.up||{});return u.length?'<div class="sec">Level-ups</div>'+u.map(([o,s])=>`<div class="ln"><div>${esc(o)} → ${esc(px(s).n)}</div><button class="pill" style="margin-top:6px" data-undo="${esc(o)}">Undo</button></div>`).join(''):''}
 function settings(){
  const seg=(k,o)=>`<div class="seg">${o.map(([v,l])=>`<button data-set="${k}:${v}" class="${String(S[k])===String(v)?'on':''}">${l}</button>`).join('')}</div>`;
  const ld={beginner:'Knee push-ups, floor-based leg work and gentle back work. Three sets of easier moves.',intermediate:'A separate program with more sets and harder moves, like archer push-ups and pistol negatives.',advanced:'Archers, one-arm negatives, pistols, planche leans and long holds. Every level uses only your body and the floor.'};
  return `<h1>Settings</h1><div class="sec">Weight unit</div>${seg('unit',[['kg','kg'],['lb','lb']])}<div class="sec">Difficulty</div>${seg('level',[['beginner','Beginner'],['intermediate','Intermediate'],['advanced','Advanced']])}<p class="mute" style="margin-top:8px">${ld[S.level]}</p><div class="sec">Rest timer</div>${seg('rest',[[0,'Off'],[60,'60 sec'],[90,'90 sec'],[120,'2 min']])}
+ ${remUI()}${upUI()}
  <div class="sec">Backup</div><p class="mute" style="margin:0 0 12px">Your logs live in this browser only. Export a backup before clearing browser data or switching phones.</p>
  <button class="go sm" id="exp">Export backup</button><button class="go sm alt" id="imp">Import backup</button><input type="file" id="file" accept="application/json" hidden>
  <div class="sec">Program</div><p class="mute">Mon push, Tue legs, Wed back, Thu rest, Fri push and core, Sat legs and back, Sun rest. Make a move harder once every set reaches the top of its range. Rest 60–90 sec between sets, 2–3 min on the hardest moves.</p>
@@ -416,9 +448,12 @@ function render(){
  if(inS){const el=$('#el');const tick=()=>{el.textContent=fmt(Math.floor((Date.now()-t0)/1000))};tick();clock=setInterval(tick,1000)}
  const s=$('#sel');if(s)s.onchange=()=>{sel=s.value;render()};
  if(tab==='settings'){
-  $('#exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({log,bw})],{type:'application/json'}));a.download='groundwork-backup-'+today+'.json';a.click()};
+  $('#exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({log,bw,up:S.up||{}})],{type:'application/json'}));a.download='groundwork-backup-'+today+'.json';a.click()};
   $('#imp').onclick=()=>$('#file').click();
-  $('#file').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(t=>{try{const o=JSON.parse(t);if(typeof o!=='object'||Array.isArray(o))throw 0;if(o.log){log=o.log;bw=o.bw||[]}else log=o;save();toast('Backup imported')}catch(x){toast('That file is not a valid backup')}})};
+  const rm=$('#rem');if(rm)rm.onclick=()=>remOn($('#remt').value||'18:00').then(render).catch(()=>toast('Could not set up reminders'));
+  const ro=$('#remoff');if(ro)ro.onclick=()=>remOff().then(render);
+  const rt=$('#remtest');if(rt)rt.onclick=async()=>{const sub=await(await navigator.serviceWorker.ready).pushManager.getSubscription();if(sub)pushPost('/test',sub.toJSON()).then(r=>r.text()).then(t=>toast(t==='201'||t==='200'?'Test sent':'Test failed: '+t))};
+  $('#file').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(t=>{try{const o=JSON.parse(t);if(typeof o!=='object'||Array.isArray(o))throw 0;if(o.log){log=o.log;bw=o.bw||[];if(o.up)S.up=o.up}else log=o;save();toast('Backup imported')}catch(x){toast('That file is not a valid backup')}})};
   $('#clr').onclick=()=>{if(confirm('Delete every logged set and weight? This cannot be undone.')){log={};bw=[];save();toast('Logs deleted')}};
  }
 }
@@ -438,6 +473,8 @@ $('#app').addEventListener('click',e=>{
  const mb=e.target.closest('[data-mo]');if(mb){mo=new Date(mo.getFullYear(),mo.getMonth()+ +mb.dataset.mo,1);render();return}
  const psb=e.target.closest('[data-ps]');if(psb){ps=psb.dataset.ps;render();return}
  const st=e.target.closest('[data-set]');if(st){const[k2,v2]=st.dataset.set.split(':');S[k2]=k2==='rest'?+v2:v2;save();render();return}
+ const up=e.target.closest('[data-up]');if(up){const x=todays()[+up.dataset.up],nx=nextEx(x.n);S.up=S.up||{};const o=Object.keys(S.up).find(k=>px(S.up[k]).n===x.n)||x.n;S.up[o]=promoSpec(x,nx);save();toast('Moved up to '+nx);const y=scrollY;render();scrollTo(0,y);return}
+ const un=e.target.closest('[data-undo]');if(un){delete S.up[un.dataset.undo];save();render();return}
  if(e.target.closest('[data-wu]')){const d=sd();log[d]=log[d]||{};log[d]._wu=!log[d]._wu;save();const y=scrollY;render();scrollTo(0,y);return}
  const sw=e.target.closest('[data-swap]');if(sw){const i=+sw.dataset.swap;swapI=swapI===i?-1:i;const y=scrollY;render();scrollTo(0,y);return}
  const pk=e.target.closest('[data-pick]');if(pk){const d=sd(),i=pk.dataset.pick;log[d]=log[d]||{};const m=log[d]._sw=log[d]._sw||{};if(pk.dataset.spec)m[i]=pk.dataset.spec;else delete m[i];swapI=-1;save();const y=scrollY;render();scrollTo(0,y);return}
