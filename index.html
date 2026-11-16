@@ -133,7 +133,7 @@ intermediate:['Cossack squats|3|8|10|p','Jump lunges|3|8|10|p','Reverse bridge h
 advanced:['Shrimp squats|4|5|8|ph','Jump squats|3|15|20','Skater jumps|3|10|12|p','Superman holds|3|45|60|s']}}
 };
 const K='bw-log-v1',KB='bw-weight-v1',KS='bw-settings-v1';
-const PUSH_URL='PASTE_YOUR_WORKER_URL_HERE',VAPID_PUB='BK4tuAAJAvfn7TvU1E3sZR1xD3Oh0yh1gb52zsUWzvx6jWOkM8Dm5VmzYRHHYIuyrT16Y9EWcdA6mjCFfVotoio';
+const PUSH_URL='https://groundwork-push.sean-hagan-875.workers.dev',VAPID_PUB='BK4tuAAJAvfn7TvU1E3sZR1xD3Oh0yh1gb52zsUWzvx6jWOkM8Dm5VmzYRHHYIuyrT16Y9EWcdA6mjCFfVotoio';
 let S={unit:'kg',level:'advanced',rest:90};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KS)||'{}'))}catch(e){}
 const U=()=>S.unit,toU=k=>S.unit==='lb'?Math.round(k*22.0462)/10:k,fromU=v=>S.unit==='lb'?v/2.20462:v;
