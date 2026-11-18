@@ -1,5 +1,5 @@
 /* Groundwork service worker. Bump VERSION when you want to force every device to refresh its cache. */
-const VERSION='groundwork-v3',CORE=['./','index.html','manifest.json','icon-180.png','icon-192.png','icon-512.png','three.module.min.js'];
+const VERSION='groundwork-v5',CORE=['./','index.html','manifest.json','icon-180.png','icon-192.png','icon-512.png','three.module.min.js'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{
