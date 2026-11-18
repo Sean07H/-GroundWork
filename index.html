@@ -106,6 +106,7 @@ button.pill{border:0;font:inherit;color:inherit}
 <button data-t="plan"><svg class="i" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>Plan</button>
 <button data-t="progress"><svg class="i" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 15l4-4 3 3 5-6"/></svg>Progress</button>
 <button data-t="body"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg>Weight</button>
+<button data-t="lib"><svg class="i" viewBox="0 0 24 24"><path d="M2 5h7a3 3 0 013 3v12a2 2 0 00-2-2H2zM22 5h-7a3 3 0 00-3 3v12a2 2 0 012-2h8z"/></svg>Library</button>
 <button data-t="settings"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>Settings</button>
 </nav>
 <div id="gd"></div>
@@ -191,7 +192,39 @@ const G=/*G*/{
 "L-sit":{"a":[112,104,90,110,108,168,102],"h":1,"k":[0,-1],"e":[0,0],"t":"Hands flat beside your hips. Push down, lock your arms and hold your straight legs out in front, level with your hips."},
 "Tuck planche hold":{"a":[98.4,82,8,110,108,80,78],"h":1,"k":[1,0],"e":[-1,0],"t":"Hands on the floor, arms straight, shoulders ahead of your hands. Lean forward and lift your tucked knees off the floor, back rounded, and hold."},
 "Planche leans":{"a":[102.1,89,19.5,110,108,48.3,108],"h":1,"e":[-1,0],"k":[0,1],"t":"Plank on straight arms with your hands turned out by your hips. Lean your shoulders as far past your hands as you can and hold."},
-"Reverse bridge holds":{"sup":1,"a":[95,70,0,134,108,66,108],"h":1,"k":[-1,-1],"e":[-1,0],"t":"Sit with hands behind you and feet flat. Press up until your hips are level with your shoulders, face up, and hold."}
+"Reverse bridge holds":{"sup":1,"a":[95,70,0,134,108,66,108],"h":1,"k":[-1,-1],"e":[-1,0],"t":"Sit with hands behind you and feet flat. Press up until your hips are level with your shoulders, face up, and hold."},
+"Wall push-ups":{"a":[109.2,54.7,69.3,160,21,89,108],"b":[125.2,63.9,50.6,160,21,89,108],"e":[-1,-0.3],"k":[0,1],"prop":[160,166,130],"eq":"Wall","lv":"Beginner","t":"Stand a step back from a wall with your hands on it at chest height. Bend your elbows and lean your chest toward the wall, keeping your body in one straight line. Push back to straight arms."},
+"Incline push-ups":{"a":[118.4,60.2,57,142,68,87.4,108],"b":[132.9,73.7,37,142,68,87.4,108],"e":[-1,-0.3],"k":[0,1],"prop":[138,178,40],"eq":"Bench, step or sturdy chair","lv":"Beginner","t":"Hands on the edge of a bench or sturdy chair, body in one straight line. Lower your chest toward the edge, then press back up. The higher the surface, the easier it is."},
+"Decline push-ups":{"a":[107.7,71.9,6.7,143,108,55,78],"b":[111.4,89,-11.1,143,108,55,78],"e":[-1,-0.3],"k":[0,1],"prop":[20,70,30],"eq":"Bench, box or sturdy chair","lv":"Intermediate","t":"Put your feet on a bench or box and your hands on the floor under your shoulders. Lower your chest toward the floor with your body straight, then press up."},
+"Bench dips":{"a":[100,66,90,90,68,138,108],"b":[100,90,90,90,68,138,108],"e":[-1,0],"k":[1,0.2],"prop":[50,92,40],"eq":"Bench or sturdy chair","lv":"Intermediate","t":"Sit on the edge of a bench, put your hands beside you, and slide your hips off. Bend your elbows straight back to lower your body, then press up. Keep your hips close to the bench."},
+"Pull-ups":{"a":[110,34,90,112,-42,110,91],"b":[110,8,90,112,-42,110,65],"e":[0,1],"k":[1,0.3],"hw":14,"p":3.6,"bar":[112,150],"eq":"Pull-up bar","lv":"Advanced","t":"Hang from the bar with hands just past shoulder width. Pull your chest toward the bar by driving your elbows down. Lower under control to a full hang."},
+"Chin-ups":{"=":"Pull-ups","hw":10,"t":"Hang from the bar with palms facing you and hands shoulder-width apart. Pull until your chin clears the bar. Lower slowly to a full hang."},
+"Wide pull-ups":{"=":"Pull-ups","hw":28,"t":"Hang from the bar with your hands well outside your shoulders. Pull your chest up toward the bar, then lower with control."},
+"Chin-up negatives":{"=":"Pull-ups","hw":10,"p":8,"t":"Jump or step up so your chin is over the bar. Lower yourself as slowly as you can to a full hang, then reset and repeat."},
+"Dead hang":{"a":[110,34,90,112,-42,110,91],"h":1,"e":[0,1],"hw":14,"bar":[112,150],"eq":"Pull-up bar","lv":"Intermediate","t":"Hang from the bar with straight arms and relaxed shoulders. Keep your legs still and breathe. Build up your hold time gradually."},
+"Hanging knee raises":{"a":[110,34,90,112,-42,110,91],"b":[110,34,90,112,-42,128,22],"e":[0,1],"k":[1,-0.3],"hw":14,"p":3,"bar":[112,150],"eq":"Pull-up bar","lv":"Intermediate","t":"Hang from the bar. Curl your knees up toward your chest without swinging. Lower slowly."},
+"Hanging leg raises":{"a":[110,34,90,112,-42,110,91],"b":[110,34,90,112,-42,166,30],"e":[0,1],"k":[1,-0.3],"hw":14,"p":3.6,"bar":[112,150],"eq":"Pull-up bar","lv":"Advanced","t":"Hang from the bar. Keep your legs straight and raise them until they are level with your hips. Lower slowly without swinging."},
+"Australian rows":{"a":[109,89.6,18.8,143,38,55,108],"b":[97.5,70,41.8,143,38,55,108],"sup":1,"e":[0,1],"k":[0,-1],"bar":[143,70],"eq":"Low bar or sturdy table","lv":"Intermediate","t":"Lie under a low bar or sturdy table and grab it with straight arms. Keep your body in a straight line. Pull your chest up to the bar, then lower with control."},
+"Crunches":{"a":[110,105,0,152,99,82,108],"b":[110,105,30,152,86,82,108],"sup":1,"e":[0,-1],"k":[0,-1],"lv":"Beginner","t":"Lie on your back with knees bent and hands by your head. Curl your shoulders off the floor by tightening your abs. Lower slowly without pulling on your neck."},
+"Sit-ups":{"a":[110,105,0,152,99,82,108],"b":[110,105,88,113,62,82,108],"sup":1,"e":[0,-1],"k":[0,-1],"lv":"Beginner","t":"Lie on your back with knees bent and feet flat. Curl all the way up to sitting. Lower back down with control."},
+"Reverse crunches":{"a":[110,105,0,116,106,108,50],"b":[110,98,-11,116,106,104,44],"sup":1,"k":[0,-1],"lv":"Intermediate","t":"Lie on your back with your legs straight up. Curl your hips off the floor by tightening your lower abs. Lower slowly without swinging your legs."},
+"Leg raises":{"a":[110,105,0,116,106,54,103],"b":[110,105,0,116,106,108,50],"sup":1,"k":[0,-1],"p":3.6,"lv":"Intermediate","t":"Lie on your back with your legs straight. Raise them until they point at the ceiling, keeping your lower back pressed down. Lower slowly, stopping just above the floor."},
+"Flutter kicks":{"a":[110,104,4,116,106,58,92,116,106,58,102],"b":[110,104,4,116,106,58,102,116,106,58,92],"sup":1,"p":1.2,"k":[0,-1],"lv":"Beginner","t":"Lie on your back with your legs just off the floor. Kick your legs up and down in small alternating beats. Keep your lower back pressed down."},
+"Scissor kicks":{"=":"Flutter kicks","p":2,"t":"Lie on your back with your legs just off the floor. Cross your legs over each other in a slow scissor motion. Keep your lower back pressed down."},
+"Mountain climbers":{"a":[111,83.5,25.5,143,108,106,98,143,108,60,108],"b":[111,83.5,25.5,143,108,60,108,143,108,106,98],"k":[1,-0.3],"p":1.2,"lv":"Beginner","t":"Start in a high plank. Drive one knee toward your chest, then switch legs quickly. Keep your hips level and shoulders over your hands."},
+"High knees":{"a":[110,51,90,130,45,128,76,96,45,110,108],"b":[110,51,90,96,45,110,108,130,45,128,76],"k":[1,-0.4],"e":[0,1],"p":1,"lv":"Beginner","t":"Stand tall and run on the spot, driving your knees up to hip height. Pump your arms. Stay light on your feet."},
+"Good mornings":{"a":[110,51,90,108,8,110,108],"b":[98,52,35,135,30,110,108],"e":[-1,0],"k":[1,0],"p":3,"lv":"Beginner","t":"Stand with feet hip-width apart and hands behind your head. Push your hips back and lean forward with a flat back. Squeeze your glutes to stand tall."},
+"Wall sit":{"a":[95,58,90,112,50,122,108],"h":1,"k":[1,0],"e":[-1,0],"prop":[82,88,130],"eq":"Wall","lv":"Beginner","t":"Lean your back against a wall and slide down until your knees are at 90 degrees. Keep your knees over your ankles. Hold the position and breathe."},
+"Step-ups":{"a":[122,52,90,125,40,135,73,125,40,112,108],"b":[135,16,90,142,15,135,73,142,15,140,50],"k":[1,0],"e":[0,1],"p":3,"prop":[118,152,35],"eq":"Box, step or sturdy chair","lv":"Beginner","t":"Put one foot fully on a box or step. Drive through that heel to stand up, lifting your other knee. Step down slowly and repeat, then switch legs."},
+"Bulgarian split squats":{"a":[108,52,90,125,40,120,108,125,40,62,68],"b":[108,78,90,125,66,120,108,125,66,62,68],"k":[1,0],"k2":[0,1],"e":[0,1],"p":3.6,"prop":[36,70,40],"eq":"Bench or sturdy chair","lv":"Advanced","t":"Rest the top of your back foot on a bench behind you. Lower straight down until your front thigh is parallel to the floor. Drive through your front heel to stand, then switch legs."},
+"Sumo squats":{"=":"Bodyweight squats","fw":22,"lv":"Beginner","t":"Stand with feet wide and toes turned out. Sit down between your legs, keeping your chest up and knees over your toes. Stand tall."},
+"Tempo push-ups":{"=":"Push-ups","p":9,"lv":"Intermediate","t":"Lower for a slow count of three, pause for one, then press up for three. Keep your body in a straight line the whole time."},
+"Pause push-ups":{"=":"Push-ups","p":6,"lv":"Intermediate","t":"Lower to just above the floor and pause for two seconds. Press up powerfully. Keep your body straight."},
+"Close-grip push-ups":{"=":"Push-ups","hw":6,"lv":"Intermediate","t":"Hands close together under your chest. Lower with your elbows brushing your ribs, then press up."},
+"Tempo squats":{"=":"Bodyweight squats","p":9,"lv":"Beginner","t":"Lower for a slow count of three, pause for one at the bottom, then stand up for three. Keep your chest up and heels down."},
+"Donkey kicks":{"a":[96,79,18,130,108,68,108],"b":[96,79,18,130,108,68,108,130,108,66,54],"k":[1,0.5],"k2":[0,1],"e":[-1,0],"p":2.4,"lv":"Beginner","t":"Start on hands and knees. Keeping your knee bent, lift one foot toward the ceiling by squeezing your glute. Lower and repeat, then switch legs."},
+"Swimmers":{"a":[110,104,6,182,96,53,104,182,104,53,96],"b":[110,104,6,182,104,53,96,182,96,53,104],"e":[0,-1],"k":[0,-1],"p":1.2,"lv":"Beginner","t":"Lie face down with arms and legs extended. Lift your opposite arm and leg, then switch in a steady flutter. Keep your neck long."},
+"Nordic curl negatives":{"a":[100,79,90,118,60,72,108],"b":[128,100.5,15,170,104,72,108],"k":[1,0.5],"e":[-1,0],"p":5,"eq":"Anchor for your feet","lv":"Advanced","t":"Kneel with your feet anchored under something heavy. Keeping your body straight from knees to head, lower forward as slowly as you can. Catch yourself with your hands and push back up."}
 }/*E*/;
 const GY=108;
 const gd=n=>{let g=G[n];if(g&&g['=']){g={...G[g['=']],...g}}return g};
@@ -214,60 +247,84 @@ function ik(A,B,l1,l2,pole,key){
 /* World axes: x = facing direction, y = up (floor at 0), z = across the body (+z is the near/white side). */
 const SW=11,HW=7,FW=8,GR=3.25;
 /* Muscles worked, guessed from the exercise name. Names match the tags on the body parts in pose(). */
-const mus=n=>{const t=n.toLowerCase(),s=new Set(),a=(...x)=>x.forEach(v=>s.add(v));
- if(/pike|hindu/.test(t))a('shoulders','triceps','core');else if(/push-up|plank shoulder|planche/.test(t))a('chest','shoulders','triceps','core');
- if(/diamond/.test(t))a('triceps');
- if(/squat|lunge|pistol|shrimp|cossack|skater/.test(t))a('quads','glutes','hamstrings');
- if(/bridge|walkout/.test(t))a('glutes','hamstrings');if(/calf/.test(t))a('calves');if(/deadlift/.test(t))a('hamstrings','glutes','back');
- if(/superman|prone|snow angel|bird dog/.test(t))a('back','rear delts','glutes');
- if(/dead bug|hollow|v-up|l-sit|plank hold|hold, hips|crawl|bird dog/.test(t))a('core');
- if(/crawl/.test(t))a('shoulders','quads');if(/curl/.test(t))a('arms');if(/tuck planche|l-sit/.test(t))a('shoulders','triceps');
- return s};
+/* Muscle rules by exercise name: first list is primary, second is secondary. */
+const MR=[[/pike|hindu/,['shoulders','triceps'],['chest','abs','upper back']],[/push-up/,['chest','triceps'],['shoulders','abs']],
+ [/planche|plank shoulder/,['shoulders','abs'],['chest','triceps','upper back']],[/dips/,['triceps'],['chest','shoulders']],
+ [/plank hold|dead bug|hollow|v-up|crunch|sit-up|leg raise|knee raise|flutter|scissor|mountain|bird dog|l-sit|crawl/,['abs'],['obliques']],
+ [/bird dog|swimmer/,['lower back'],['glutes','shoulders','upper back']],[/crawl|mountain/,['shoulders'],['quads','triceps','chest']],
+ [/l-sit|plank hold/,[],['shoulders','triceps']],[/leg raise|knee raise|v-up|flutter|scissor|mountain|l-sit/,[],['quads']],
+ [/squat|lunge|pistol|shrimp|step-up|wall sit|jump|bulgarian/,['quads','glutes'],['hamstrings','calves']],
+ [/bridge|walkout/,['glutes','hamstrings'],['lower back']],[/donkey/,['glutes'],['hamstrings','lower back']],[/calf/,['calves'],[]],
+ [/deadlift|good morning|nordic/,['hamstrings'],['glutes','lower back']],[/superman/,['lower back','glutes'],['upper back','rear delts','hamstrings']],
+ [/prone|snow angel/,['upper back','rear delts'],['lats','lower back']],[/pull-up|chin-up/,['lats','biceps'],['upper back','rear delts','forearms','abs']],
+ [/australian row/,['upper back','lats'],['biceps','rear delts','forearms']],[/dead hang/,['forearms'],['lats','shoulders']],[/hanging/,[],['forearms','lats']],
+ [/curl/,['biceps'],['forearms']],[/high knees/,['quads'],['abs','calves']]];
+const muscles=n=>{const t=n.toLowerCase(),p=new Set(),s=new Set();MR.forEach(([r,a,b])=>{if(r.test(t)){a.forEach(x=>p.add(x));b.forEach(x=>s.add(x))}});
+ if(/diamond|close-grip|dips/.test(t)&&p.delete('chest'))s.add('chest');p.forEach(x=>s.delete(x));return{p,s}};
+const mus=n=>{const m=muscles(n);return new Set([...m.p,...m.s])};
 /* 3D mannequin (three.js, self-hosted). World axes: x = facing, y = up (floor at -GR), z = across the body. */
 let THREE=null;
 const three=import('./three.module.min.js').then(m=>{THREE=m}).catch(()=>{});
 const SKIN=0xdca27e,SHIRT=0x4a6fa5,SHORTS=0x3a4558,SHOE=0xe9eaee,HAIR=0x3b2a20;
+const pole=(A,B,M,key)=>{const d=V.sub(B,A),dd=V.dot(d,d)||1,c=V.add(A,V.mul(d,V.dot(V.sub(M,A),d)/dd)),v=V.sub(M,c),n=V.len(v);return n>.01?V.mul(v,1/n):(bend[key]||[0,1,0])};
 function skel(Q,g,ph){
  const[hx,hy,an,wx,wy,fx,fy,w2x,w2y,f2x,f2y]=Q,r=an*Math.PI/180,dx=Math.cos(r),dy=Math.sin(r),Yy=y=>GY-y,
-  H=[hx,Yy(hy),0],S=[hx+36*dx,Yy(hy)+36*dy,0],K=g.k||[1,0],E=g.e||[-1,0],hz=(g.hw??SW)+(g.sp||0)*Math.sin(Math.PI*ph);
+  H=[hx,Yy(hy),0],S=[hx+36*dx,Yy(hy)+36*dy,0],K=g.k||[1,0],E=g.e||[-1,0],K2=g.k2||K,E2=g.e2||E,hz=(g.hw??SW)+(g.sp||0)*Math.sin(Math.PI*ph);
  const L=[[1,wx,wy,fx,fy],[-1,w2x,w2y,f2x,f2y]].map(([s,ax,ay,bx,by])=>{
   const sh=[S[0],S[1],s*SW],hp=[H[0],H[1],s*HW],w=[ax,Yy(ay),s*hz],f=[bx,Yy(by),s*(g.fw??FW)],
-   o={s,sh,hp,w,f,el:ik(sh,w,21,19,[E[0],-E[1],s*.45],'e'+s),kn:ik(hp,f,29,28,[K[0],-K[1],s*.3],'k'+s),fd:[1,0,0]};
+   o={s,sh,hp,w,f,el:ik(sh,w,21,19,[(s>0?E:E2)[0],-(s>0?E:E2)[1],s*.45],'e'+s),kn:ik(hp,f,29,28,[(s>0?K:K2)[0],-(s>0?K:K2)[1],s*.3],'k'+s),fd:[1,0,0]};o.pe=pole(sh,w,o.el,'e'+s);o.pk=pole(hp,f,o.kn,'k'+s);
   if(g.f){const a=Math.asin(Math.min(1,Math.max(0,(GY-by)/8)));o.fd=[Math.cos(a),-Math.sin(a),0]}
   return o});
- return{H,S,u:[dx,dy,0],head:[S[0]+13*dx,S[1]+13*dy,0],L,sup:!!g.sup};
+ return{H,S,u:[dx,dy,0],head:[S[0]+13*dx,S[1]+13*dy,0],L,sup:!!g.sup,prop:g.prop||null,bar:g.bar||null};
 }
 function figure(T){
  const G=new T.Group(),Y=new T.Vector3(0,1,0),X=new T.Vector3(1,0,0),parts=[],
-  mat=(c,x)=>new T.MeshStandardMaterial({color:c,roughness:.62,metalness:0,...x}),gS=new T.SphereGeometry(1,24,16),gC=new T.CylinderGeometry(1,1,1,20,1),
+  mat=c=>new T.MeshStandardMaterial({color:c,roughness:.58,metalness:0}),gS=new T.SphereGeometry(1,18,12),gC=new T.CylinderGeometry(1,1,1,16,1),
+  BASE=0xb68266,MUSC=0xdca27e,
   add=(geo,c,tags=[])=>{const m=new T.Mesh(geo,mat(c));m.castShadow=true;G.add(m);const p={m,tags,base:new T.Color(c)};parts.push(p);return p},
-  cyl=(r1,r2,c,tags)=>add(new T.CylinderGeometry(r2,r1,1,20,1),c,tags),
-  ball=(r,c,tags)=>{const p=add(gS,c,tags);p.r=r;return p};
- const chest=add(gS,SHIRT,['chest','back']),waist=add(gC,SHIRT,['core']),pelv=add(gS,SHORTS,['glutes']),neck=cyl(2.8,2.8,SKIN,[]);
+  ball=(c,tags)=>add(gS,c,tags),cyl=(r1,r2,c,tags)=>add(new T.CylinderGeometry(r2,r1,1,16,1),c,tags),two=f=>[0,1].map(f);
+ /* Torso: base shapes plus one mesh group per muscle. Limbs: a base cylinder plus muscle bellies on the correct side. */
+ const pelv=ball(BASE),waist=add(gC,BASE),rib=ball(BASE),neck=cyl(2.8,2.8,BASE),
+  pec=two(()=>ball(MUSC,['chest'])),abs=[0,1,2,3,4,5].map(()=>ball(MUSC,['abs'])),obl=two(()=>ball(MUSC,['obliques'])),latm=two(()=>ball(MUSC,['lats'])),
+  trap=[0,1,2].map(()=>ball(MUSC,['upper back'])),erec=two(()=>ball(MUSC,['lower back'])),glut=two(()=>ball(MUSC,['glutes'])),
+  rdel=two(()=>ball(MUSC,['rear delts'])),fdel=two(()=>ball(MUSC,['shoulders']));
+ const L=two(()=>({ua:cyl(3,2.6,BASE),bic:ball(MUSC,['biceps']),tri:ball(MUSC,['triceps']),elb:ball(BASE),fa:cyl(3.1,2,MUSC,['forearms']),hand:ball(BASE),
+  th:cyl(5.2,4,BASE),quad:ball(MUSC,['quads']),ham:ball(MUSC,['hamstrings']),kn:ball(BASE),sh:cyl(3.4,2.3,BASE),calf:ball(MUSC,['calves']),foot:ball(BASE)}));
  const hg=new T.Group();G.add(hg);
- const hp=(geo,c,pos,sc,x)=>{const m=new T.Mesh(geo,mat(c,x));m.position.set(...pos);m.scale.set(...sc);m.castShadow=true;hg.add(m);return m};
- hp(gS,SKIN,[0,0,0],[7.2,8.2,7]);
+ const hp=(geo,c,pos,sc,x)=>{const m=new T.Mesh(geo,mat(c));if(x)Object.assign(m.material,x);m.position.set(...pos);m.scale.set(...sc);m.castShadow=true;hg.add(m);return m};
+ hp(gS,0xd9a07c,[0,0,0],[7.2,8.2,7]);
  hp(gS,0x1d1d22,[6.3,1.6,2.9],[1,1.1,1]);hp(gS,0x1d1d22,[6.3,1.6,-2.9],[1,1.1,1]);
  hp(gS,0xc98e6b,[7.3,-1.2,0],[1.5,1.7,1.3]);hp(gS,0x9b5c4a,[6.5,-4.3,0],[.5,.35,1.8]);
- hp(gS,SKIN,[0,-.5,7.1],[1.4,2,1.2]);hp(gS,SKIN,[0,-.5,-7.1],[1.4,2,1.2]);
- const hair=hp(new T.SphereGeometry(1,24,14,0,Math.PI*2,0,1.75),HAIR,[0,.3,0],[7.7,8.7,7.5],{side:T.DoubleSide});hair.rotation.z=.5;
- const L=[0,1].map(()=>({up:cyl(3.7,3.1,SHIRT,['shoulders','triceps','arms']),fo:cyl(3.1,2.4,SKIN,['arms']),hand:ball(3,SKIN,['arms']),elb:ball(3.1,SKIN,['arms']),
-  sho:ball(4.6,SHIRT,['shoulders','rear delts']),th:cyl(5.4,4.2,SHORTS,['quads','hamstrings']),sh:cyl(4.2,3,SKIN,['calves']),knee:ball(4.2,SKIN,['calves']),
-  hip:ball(5.8,SHORTS,['glutes']),foot:add(gS,SHOE)}));
- const V=a=>new T.Vector3(a[0],a[1],a[2]),seg=(p,a,b)=>{const A=V(a),d=V(b).sub(A),l=d.length();p.m.visible=l>.01;if(!p.m.visible)return;p.m.position.copy(A).addScaledVector(d,.5);p.m.quaternion.setFromUnitVectors(Y,d.normalize());p.m.scale.set(1,l,1)},
-  at=(p,a)=>{p.m.position.set(a[0],a[1],a[2]);p.m.scale.setScalar(p.r)},amber=new T.Color().setStyle('#f7a927'),tmp=new T.Color();
+ hp(gS,0xd9a07c,[0,-.5,7.1],[1.4,2,1.2]);hp(gS,0xd9a07c,[0,-.5,-7.1],[1.4,2,1.2]);
+ const hair=hp(new T.SphereGeometry(1,24,14,0,Math.PI*2,0,1.75),0x3b2a20,[0,.3,0],[7.7,8.7,7.5],{side:T.DoubleSide});hair.rotation.z=.5;
+ const V=a=>new T.Vector3(a[0],a[1],a[2]),
+  seg=(p,a,b)=>{const A=V(a),d=V(b).sub(A),l=d.length();p.m.visible=l>.01;if(!p.m.visible)return;p.m.position.copy(A).addScaledVector(d,.5);p.m.quaternion.setFromUnitVectors(Y,d.normalize());p.m.scale.set(1,l,1)},
+  blob=(p,A,B,f,P,off,r,hl)=>{const a=V(A),d=V(B).sub(a),dir=d.clone().normalize();p.m.position.copy(a).addScaledVector(d,f).addScaledVector(V(P),off);p.m.quaternion.setFromUnitVectors(Y,dir);p.m.scale.set(r,hl,r)},
+  at=(p,a,r)=>{p.m.position.set(a[0],a[1],a[2]);p.m.scale.setScalar(r)},
+  amber=new T.Color().setStyle('#f7a927'),blue=new T.Color().setStyle('#6cb4ee'),tmp=new T.Color();
  function update(sk,mu=new Set(),heat=null){
-  const u=V(sk.u),lat=new T.Vector3(0,0,sk.sup?-1:1),fwd=new T.Vector3().crossVectors(u,new T.Vector3(0,0,1));if(sk.sup)fwd.negate();
-  const q=new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(fwd,u,lat)),H=V(sk.H),S=V(sk.S),ax=S.clone().sub(H);
-  const put=(p,pos,sc)=>{p.m.position.copy(pos);p.m.quaternion.copy(q);p.m.scale.set(...sc)};
-  put(chest,H.clone().addScaledVector(ax,.72),[7.6,13.5,12.5]);put(waist,H.clone().addScaledVector(ax,.38),[6.6,18,10]);put(pelv,H,[7.4,7.8,11.2]);
+  const MP=mu.p||mu,MS=mu.s||new Set(),u=V(sk.u),lat=new T.Vector3(0,0,sk.sup?-1:1),fwd=new T.Vector3().crossVectors(u,new T.Vector3(0,0,1));if(sk.sup)fwd.negate();
+  const q=new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(fwd,u,lat)),H=V(sk.H),
+   loc=(a,b,c)=>H.clone().addScaledVector(fwd,a).addScaledVector(u,b).addScaledVector(lat,c),
+   put=(p,pos,sc)=>{p.m.position.copy(pos);p.m.quaternion.copy(q);p.m.scale.set(sc[0],sc[1],sc[2])};
+  put(pelv,loc(0,.5,0),[7.2,7.4,10.4]);put(waist,loc(0,13,0),[6,14,9.3]);put(rib,loc(.4,25.5,0),[7,11,11.2]);
+  [1,-1].forEach((s,i)=>{put(pec[i],loc(5,27.5,s*5.4),[3,5,5.6]);put(obl[i],loc(3.4,12,s*8),[3,7,3.2]);put(latm[i],loc(-4.6,19.5,s*7.8),[2.8,9.5,5.2]);
+   put(erec[i],loc(-5.2,9,s*2.6),[2.2,8.5,2.2]);put(glut[i],loc(-4.6,-1,s*5.3),[4.2,4.8,4.7]);
+   [6.5,12,17.5].forEach((y,r)=>put(abs[i*3+r],loc(5.6,y,s*2.3),[1.8,2.5,2.2]))});
+  put(trap[0],loc(-5,30,0),[2.6,7.5,8]);put(trap[1],loc(-1,33.5,5.5),[3,2.6,4.5]);put(trap[2],loc(-1,33.5,-5.5),[3,2.6,4.5]);
   seg(neck,sk.S.map((v,i)=>v+sk.u[i]*3),sk.head.map((v,i)=>v-sk.u[i]*4));
   hg.position.set(...sk.head);hg.quaternion.copy(q);
-  sk.L.forEach((l,i)=>{const p=L[i];seg(p.up,l.sh,l.el);seg(p.fo,l.el,l.w);at(p.hand,l.w);at(p.elb,l.el);at(p.sho,l.sh);seg(p.th,l.hp,l.kn);seg(p.sh,l.kn,l.f);at(p.knee,l.kn);at(p.hip,l.hp);
-   const fd=V(l.fd);p.foot.m.position.set(l.f[0],l.f[1]-.4,l.f[2]).addScaledVector(fd,3.4);p.foot.m.quaternion.setFromUnitVectors(X,fd);p.foot.m.scale.set(5.2,2.6,3.4)});
+  sk.L.forEach((l,i)=>{const p=L[i];
+   seg(p.ua,l.sh,l.el);blob(p.bic,l.sh,l.el,.45,l.pe,-2.1,2.5,7);blob(p.tri,l.sh,l.el,.45,l.pe,2,2.7,8);at(p.elb,l.el,2.7);
+   seg(p.fa,l.el,l.w);blob(p.hand,l.el,l.w,1.07,l.pe,0,2.3,3.4);
+   seg(p.th,l.hp,l.kn);blob(p.quad,l.hp,l.kn,.5,l.pk,2.3,4.4,11);blob(p.ham,l.hp,l.kn,.5,l.pk,-2.2,3.9,10.5);at(p.kn,l.kn,3.7);
+   seg(p.sh,l.kn,l.f);blob(p.calf,l.kn,l.f,.3,l.pk,-1.8,3.4,8.2);
+   const fd=V(l.fd);p.foot.m.position.set(l.f[0],l.f[1]-.4,l.f[2]).addScaledVector(fd,3.4);p.foot.m.quaternion.setFromUnitVectors(X,fd);p.foot.m.scale.set(5.4,2.5,3.3);
+   rdel[i].m.position.copy(V(l.sh)).addScaledVector(fwd,-3);rdel[i].m.scale.setScalar(2.6);
+   fdel[i].m.position.copy(V(l.sh)).addScaledVector(fwd,1.4).add(new T.Vector3(0,0,l.s*.9));fdel[i].m.scale.setScalar(3.7)});
   parts.forEach(p=>{let c=p.base;
    if(heat){const v=Math.max(0,...p.tags.map(t=>heat[t]||0));if(v){const h=heatCol(v);c=tmp.setRGB(h[0]/255,h[1]/255,h[2]/255,T.SRGBColorSpace)}}
-   else if(p.tags.some(t=>mu.has(t)))c=amber;
+   else if(p.tags.some(t=>MP.has(t)))c=amber;else if(p.tags.some(t=>MS.has(t)))c=blue;
    p.m.material.color.copy(c)});
  }
  return{group:G,update};
@@ -281,24 +338,30 @@ function stage(cv){
  sc.add(new T.HemisphereLight(0xffffff,0x39404d,1.25),sun,sun.target,fig.group);
  const fl=new T.Mesh(new T.PlaneGeometry(260,120),new T.ShadowMaterial({opacity:.4}));fl.rotation.x=-Math.PI/2;fl.position.set(120,-GR,0);fl.receiveShadow=true;sc.add(fl);
  const gr=new T.GridHelper(240,12,0xf7a927,0xffffff);gr.material.transparent=true;gr.material.opacity=.14;gr.position.set(120,-GR+.05,0);gr.scale.z=.5;sc.add(gr);
+ const pm=new T.MeshStandardMaterial({color:0x5a6475,roughness:.7}),box=new T.Mesh(new T.BoxGeometry(1,1,1),pm),bar=new T.Group(),
+  posts=[-34,34].map(z=>{const m=new T.Mesh(new T.CylinderGeometry(1.1,1.1,1,10),pm);m.userData.z=z;m.castShadow=true;bar.add(m);return m}),
+  rod=new T.Mesh(new T.CylinderGeometry(1.2,1.2,68,12),pm);rod.rotation.x=Math.PI/2;rod.castShadow=true;bar.add(rod);
+ box.castShadow=box.receiveShadow=true;box.visible=bar.visible=false;sc.add(box,bar);
  let lw=0,lh=0;
  return{draw(sk,cm,mu,heat){
    const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
    if(w!==lw||h!==lh){r.setSize(w,h,false);lw=w;lh=h}
    cam.aspect=w/h;const D=((240/cm.zoom)/cam.aspect/2)/Math.tan(cam.fov*Math.PI/360),cy=cm.cy??25,cp=Math.cos(cm.pitch),sp=Math.sin(cm.pitch);
    cam.position.set(120-Math.sin(cm.yaw)*cp*D,cy+sp*D,Math.cos(cm.yaw)*cp*D);cam.lookAt(120,cy,0);cam.updateProjectionMatrix();
+   const pp=sk.prop;box.visible=!!pp;if(pp){box.scale.set(pp[1]-pp[0],pp[2],50);box.position.set((pp[0]+pp[1])/2,pp[2]/2-GR,0)}
+   const bb=sk.bar;bar.visible=!!bb;if(bb){rod.position.set(bb[0],bb[1],0);posts.forEach(m=>{m.scale.y=bb[1]+GR;m.position.set(bb[0],(bb[1]-GR)/2,m.userData.z)})}
    fig.update(sk,mu,heat);r.render(sc,cam)},
   dispose(){r.dispose();r.forceContextLoss()}};
 }
 let gst=null,hst=null;
 let raf=0;
 function openGuide(n){const g=gd(n),d=$('#gd'),still=matchMedia('(prefers-reduced-motion:reduce)').matches;cancelAnimationFrame(raf);if(gst){gst.dispose();gst=null}
- d.innerHTML=`<div class="gs"><div class="hd"><h3>${n}</h3><button class="go sm alt" style="margin:0;padding:8px 16px" data-gc>Close</button></div>${g&&g.a?`<canvas id="gs" role="img" aria-label="${n} 3D animation"></canvas>${g.h?'':'<div class="inl" style="margin:0 0 10px;align-items:center"><button class="go sm alt" id="gpl" style="margin:0;padding:8px 14px;min-width:78px">Pause</button><input id="gp" type="range" min="0" max="1000" value="0" aria-label="Scrub the movement" style="flex:1;min-width:0;padding:0;accent-color:#f7a927"><button class="go sm alt" id="gsp" style="margin:0;padding:8px 14px">1×</button></div>'}<div class="seg" id="gv"><button data-v="iso">Iso</button><button data-v="side">Side</button><button data-v="front">Front</button><button data-v="top">Top</button>${still?'':'<button data-v="spin">Spin</button>'}</div><p class="mute" style="margin:8px 0 10px">Drag to rotate. Scroll to zoom.</p><p>${g.t}</p>${mus(n).size?'<div class="mute" style="margin:10px 0 6px">Muscles worked (amber on the figure)</div><div>'+[...mus(n)].map(m=>`<span class="chip">${m[0].toUpperCase()+m.slice(1)}</span>`).join('')+'</div>':''}${g.h?'<span class="chip" style="margin:10px 0 0">Hold this position</span>':''}`:'<p class="mute" style="margin-top:14px">No illustration for this exercise yet.</p>'}</div>`;
+ d.innerHTML=`<div class="gs"><div class="hd"><h3>${n}</h3><button class="go sm alt" style="margin:0;padding:8px 16px" data-gc>Close</button></div>${g&&g.a?`<canvas id="gs" role="img" aria-label="${n} 3D animation"></canvas>${g.h?'':'<div class="inl" style="margin:0 0 10px;align-items:center"><button class="go sm alt" id="gpl" style="margin:0;padding:8px 14px;min-width:78px">Pause</button><input id="gp" type="range" min="0" max="1000" value="0" aria-label="Scrub the movement" style="flex:1;min-width:0;padding:0;accent-color:#f7a927"><button class="go sm alt" id="gsp" style="margin:0;padding:8px 14px">1×</button></div>'}<div class="seg" id="gv"><button data-v="iso">Iso</button><button data-v="side">Side</button><button data-v="front">Front</button><button data-v="top">Top</button>${still?'':'<button data-v="spin">Spin</button>'}</div><p class="mute" style="margin:8px 0 10px">Drag to rotate. Scroll to zoom.</p>${libInfo(n,g)}${g.h?'<span class="chip" style="margin:10px 0 0">Hold this position</span>':''}`:'<p class="mute" style="margin-top:14px">No illustration for this exercise yet.</p>'}</div>`;
  d.classList.add('show');d.onclick=e=>{if(e.target.id==='gd'||e.target.closest('[data-gc]')){cancelAnimationFrame(raf);if(gst){gst.dispose();gst=null}d.classList.remove('show')}};
  if(!g||!g.a)return;
  three.then(()=>{if(!THREE||!$('#gs')){if($('#gs'))$('#gs').outerHTML='<p class="mute">3D view is not supported on this device.</p>';return}
  const st=gst=stage($('#gs'));
- const A=norm(g.a),B=g.b?norm(g.b):A,per=(g.p||3.4)*1000,t0=performance.now(),cv=$('#gs'),mu=mus(n),sb=$('[data-v=spin]'),
+ const A=norm(g.a),B=g.b?norm(g.b):A,per=(g.p||3.4)*1000,t0=performance.now(),cv=$('#gs'),mu=muscles(n),sb=$('[data-v=spin]'),
   views={iso:[-Math.PI/4,.62],side:[0,.04],front:[-Math.PI/2,.04],top:[0,1.5]},
   cam={yaw:-Math.PI/4,pitch:.62,zoom:1.25},tgt={...cam};let spin=false,drag=null,pos=still?.5:0,play=!still&&!g.h,spd=1,last=performance.now();
  const gp=$('#gp'),gpl=$('#gpl'),gsp=$('#gsp');
@@ -318,7 +381,7 @@ function openGuide(n){const g=gd(n),d=$('#gd'),still=matchMedia('(prefers-reduce
   const ph=g.h?(g.h===2?1:0):.5-.5*Math.cos(2*Math.PI*pos);
   if(spin&&!drag){cam.yaw+=.012;tgt.yaw=cam.yaw}
   const e=still?1:.18;for(const k in cam)cam[k]+=(tgt[k]-cam[k])*e;
-  const sk=skel(A.map((v,i)=>v+(B[i]-v)*ph),g,ph);st.draw(sk,{...cam,cy:Math.max(10,Math.min(60,(sk.H[1]+sk.head[1])/2))},mu);raf=requestAnimationFrame(step)};
+  const sk=skel(A.map((v,i)=>v+(B[i]-v)*ph),g,ph);st.draw(sk,{...cam,zoom:cam.zoom*(sk.bar&&sk.bar[1]>100?.75:1),cy:Math.max(10,Math.min(90,(sk.H[1]+sk.head[1])/2))},mu);raf=requestAnimationFrame(step)};
  raf=requestAnimationFrame(step)})}
 const px=t=>{const[n,s,lo,hi,f='']=t.split('|');return{n,s:+s,r:lo==='x'?'max':[+lo,+hi],side:f.includes('p')?1:0,u:f.includes('s')?'sec':'reps',rest:f.includes('h')?150:0}};
 const plan=(day,lv=S.level)=>P[day].e[lv].map(s=>{const x=px(s);return S.up&&S.up[x.n]?px(S.up[x.n]):x});
@@ -442,10 +505,10 @@ function line(pts,unit){
 }
 
 /* Muscle heat map: sets logged since Monday, spread over the muscles each exercise works. 12+ sets = full red. */
-const MUS=['chest','back','shoulders','rear delts','triceps','arms','core','glutes','quads','hamstrings','calves'],STAND=[110,52,90,112,56,110,108,112,56,110,108];
+const MUS=['chest','shoulders','rear delts','upper back','lats','lower back','biceps','triceps','forearms','abs','obliques','glutes','quads','hamstrings','calves'],STAND=[110,52,90,112,56,110,108,112,56,110,108];
 const heatCol=v=>{const a=[110,118,130],b=[247,169,39],c=[239,68,68],m=(x,y,t)=>x.map((n,i)=>n+(y[i]-n)*t);return v<.5?m(a,b,v*2):m(b,c,(v-.5)*2)};
 function weekHeat(){const mon=new Date();mon.setDate(mon.getDate()-((mon.getDay()+6)%7));const ms=iso(mon),n={},h={};
- Object.keys(log).filter(d=>d>=ms&&d<=today).forEach(d=>exs(d).forEach(x=>{const c=log[d][x].filter(t=>t.done).length;if(c)mus(x).forEach(m=>n[m]=(n[m]||0)+c)}));
+ Object.keys(log).filter(d=>d>=ms&&d<=today).forEach(d=>exs(d).forEach(x=>{const c=log[d][x].filter(t=>t.done).length;if(c){const mm=muscles(x);mm.p.forEach(m=>n[m]=(n[m]||0)+c);mm.s.forEach(m=>n[m]=(n[m]||0)+c*.5)}}));
  MUS.forEach(m=>{if(n[m])h[m]=Math.max(.12,Math.min(1,n[m]/12))});return{n,h}}
 const cap1=m=>m[0].toUpperCase()+m.slice(1);
 function heatCard(){const{n}=weekHeat(),hot=MUS.filter(m=>n[m]).sort((a,b)=>n[b]-n[a]),cold=MUS.filter(m=>!n[m]);
@@ -453,7 +516,7 @@ function heatCard(){const{n}=weekHeat(),hot=MUS.filter(m=>n[m]).sort((a,b)=>n[b]
  <div style="height:8px;border-radius:4px;margin:12px 0 4px;background:linear-gradient(90deg,rgb(110,118,130),rgb(247,169,39),rgb(239,68,68))"></div>
  <div class="mute" style="display:flex;justify-content:space-between"><span>Fewer sets</span><span>12+ sets</span></div>
  <p class="mute" style="margin:8px 0">Sets logged since Monday. Drag the figure to turn it.</p>
- ${hot.length?hot.map(m=>`<span class="chip">${cap1(m)} · ${n[m]}</span>`).join(''):'<p class="mute">Log a workout and your muscles will light up here.</p>'}
+ ${hot.length?hot.map(m=>`<span class="chip">${cap1(m)} · ${Math.round(n[m])}</span>`).join(''):'<p class="mute">Log a workout and your muscles will light up here.</p>'}
  ${hot.length&&cold.length?`<div class="mute" style="margin:8px 0 6px">Not trained yet this week</div>${cold.map(m=>`<span class="chip">${cap1(m)}</span>`).join('')}`:''}`}
 let hyaw=-.8;
 function drawHeat(){const cv=$('#hm');if(hst){hst.dispose();hst=null}if(!cv)return;
@@ -515,6 +578,18 @@ let pm='week',mo=new Date(),ps=today;
 function dayCard(k){const p=P[dayOf(k)],h=new Date(k+'T00:00').toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
  if(!p)return `<div class="ex"><h3>${h}</h3><p class="mute">Rest day</p></div>`;
  const pl=plan(dayOf(k));return `<div class="ex"><div class="hd"><h3>${p.n}</h3><span class="chip" style="margin:0">${pl.reduce((a,x)=>a+x.s,0)} sets total</span></div><div class="mute" style="margin-bottom:6px">${h}</div>${list(pl)}</div>`}
+const lvl=n=>{for(const d in P)for(const l in P[d].e)if(P[d].e[l].some(x=>x.split('|')[0]===n))return cap1(l);return(gd(n)||{}).lv||'Beginner'};
+function libInfo(n,g){const m=muscles(n),steps=(g.t.match(/[^.!?]+[.!?]+/g)||[g.t]).map(x=>x.trim()),
+ ch=(set,c)=>[...set].map(x=>`<span class="chip" style="border-color:${c};color:${c}">${cap1(x)}</span>`).join('');
+ return `<div class="sec">How to do it</div><ol style="margin:0;padding-left:22px">${steps.map(x=>`<li style="margin:6px 0">${esc(x)}</li>`).join('')}</ol>
+ ${m.p.size?`<div class="sec">Primary muscles</div>${ch(m.p,'#f7a927')}`:''}${m.s.size?`<div class="sec">Secondary muscles</div>${ch(m.s,'#6cb4ee')}`:''}
+ <div style="margin-top:14px"><span class="chip">${lvl(n)}</span>${g.eq?`<span class="chip">Needs: ${esc(g.eq)}</span>`:''}</div>`}
+let libQ='',libM='';
+const LM=[['','All'],['chest','Chest'],['shoulders','Shoulders'],['rear delts','Rear delts'],['upper back','Upper back'],['lats','Lats'],['lower back','Lower back'],['biceps','Biceps'],['triceps','Triceps'],['forearms','Forearms'],['abs','Abs'],['obliques','Obliques'],['glutes','Glutes'],['quads','Quads'],['hamstrings','Hamstrings'],['calves','Calves']];
+function libList(){const q=libQ.trim().toLowerCase(),rows=Object.keys(G).filter(n=>{const g=gd(n);if(!g||!g.a)return false;const m=muscles(n);
+  return(!libM||m.p.has(libM))&&(!q||n.toLowerCase().includes(q)||[...m.p,...m.s].some(x=>x.includes(q)))}).sort((a,b)=>a.localeCompare(b));
+ return `<div class="mute" style="margin:4px 0 6px">${rows.length} exercise${rows.length===1?'':'s'}</div>`+(rows.map(n=>`<div class="ln" data-g="${esc(n)}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer"><div><div style="font-weight:700">${esc(n)}</div><div class="mute" style="font-size:14px">${[...muscles(n).p].map(cap1).join(', ')||'Full body'}</div></div><span class="pill" style="flex:none">${lvl(n)}</span></div>`).join('')||'<p class="mute">No matches.</p>')}
+function library(){return `<h1>Library</h1><input id="lq" type="search" placeholder="Search exercises or muscles" aria-label="Search exercises" value="${esc(libQ)}" style="margin-top:10px"><div style="display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px">${LM.map(([k,l])=>`<button class="pill" data-lm="${k}" style="flex:none;${libM===k?'background:#f7a927;color:#1a1204':''}">${l}</button>`).join('')}</div><div id="ll">${libList()}</div>`}
 function planView(){
  let h=`<h1>Plan</h1><div class="seg" style="margin:12px 0"><button data-pm="week" class="${pm==='week'?'on':''}">Next 7 days</button><button data-pm="month" class="${pm==='month'?'on':''}">Month</button></div>`;
  if(pm==='week'){for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()+i);h+=dayCard(iso(d))}return h}
@@ -527,13 +602,14 @@ async function wake(on){try{if(on&&!wl&&'wakeLock' in navigator){wl=await naviga
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&tab==='log'&&view==='session')wake(true)});
 function render(){
  const inS=tab==='log'&&view==='session';wake(inS);
- $('#app').innerHTML=inS?session():tab==='log'?home():tab==='progress'?progress():tab==='body'?body():tab==='plan'?planView():settings();
+ $('#app').innerHTML=inS?session():tab==='log'?home():tab==='progress'?progress():tab==='body'?body():tab==='plan'?planView():tab==='lib'?library():settings();
  $('#nav').style.display=inS?'none':'flex';
  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
  clearInterval(clock);
  if(inS){const el=$('#el');const tick=()=>{el.textContent=fmt(Math.floor((Date.now()-t0)/1000))};tick();clock=setInterval(tick,1000)}
  const s=$('#sel');if(s)s.onchange=()=>{sel=s.value;render()};
  if(tab==='progress')drawHeat();else if(hst){hst.dispose();hst=null}
+ if(tab==='lib'){const q=$('#lq');if(q)q.oninput=()=>{libQ=q.value;$('#ll').innerHTML=libList()}}
  if(tab==='settings'){
   $('#exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({log,bw,up:S.up||{}})],{type:'application/json'}));a.download='groundwork-backup-'+today+'.json';a.click()};
   $('#imp').onclick=()=>$('#file').click();
@@ -565,6 +641,7 @@ $('#app').addEventListener('click',e=>{
  const mb=e.target.closest('[data-mo]');if(mb){mo=new Date(mo.getFullYear(),mo.getMonth()+ +mb.dataset.mo,1);render();return}
  const psb=e.target.closest('[data-ps]');if(psb){ps=psb.dataset.ps;render();return}
  const st=e.target.closest('[data-set]');if(st){const[k2,v2]=st.dataset.set.split(':');S[k2]=k2==='rest'?+v2:v2;save();render();return}
+ const lm=e.target.closest('[data-lm]');if(lm){libM=lm.dataset.lm;const y=scrollY;render();scrollTo(0,y);return}
  const up=e.target.closest('[data-up]');if(up){const x=todays()[+up.dataset.up],nx=nextEx(x.n);S.up=S.up||{};const o=Object.keys(S.up).find(k=>px(S.up[k]).n===x.n)||x.n;S.up[o]=promoSpec(x,nx);save();toast('Moved up to '+nx);const y=scrollY;render();scrollTo(0,y);return}
  const un=e.target.closest('[data-undo]');if(un){delete S.up[un.dataset.undo];save();render();return}
  if(e.target.closest('[data-wu]')){const d=sd();log[d]=log[d]||{};log[d]._wu=!log[d]._wu;save();const y=scrollY;render();scrollTo(0,y);return}
