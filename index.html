@@ -264,7 +264,7 @@ const muscles=n=>{const t=n.toLowerCase(),p=new Set(),s=new Set();MR.forEach(([r
 const mus=n=>{const m=muscles(n);return new Set([...m.p,...m.s])};
 /* 3D mannequin (three.js, self-hosted). World axes: x = facing, y = up (floor at -GR), z = across the body. */
 let THREE=null;
-const three=import('./three.module.min.js').then(m=>{THREE=m}).catch(()=>{});
+const three=import('./three.module.min.js').then(async m=>{THREE=m;await loadModel()}).catch(()=>{});
 const SKIN=0xdca27e,SHIRT=0x4a6fa5,SHORTS=0x3a4558,SHOE=0xe9eaee,HAIR=0x3b2a20;
 const pole=(A,B,M,key)=>{const d=V.sub(B,A),dd=V.dot(d,d)||1,c=V.add(A,V.mul(d,V.dot(V.sub(M,A),d)/dd)),v=V.sub(M,c),n=V.len(v);return n>.01?V.mul(v,1/n):(bend[key]||[0,1,0])};
 function skel(Q,g,ph){
@@ -329,10 +329,71 @@ function figure(T){
  }
  return{group:G,update};
 }
+/* Rigged human model (Character Creator rig, exported by script). The exercise poses drive its skeleton with IK;
+   muscle regions are per-vertex labels tinted in the shader. */
+let MODEL=null;
+async function loadModel(){try{const[d,b]=await Promise.all([fetch('figure.json').then(r=>r.json()),fetch('figure.bin').then(r=>r.arrayBuffer())]);MODEL={d,b}}catch(e){MODEL=null}}
+function humanFigure(T,D,bin){
+ const V3=(a)=>new T.Vector3(a[0],a[1],a[2]),G=new T.Group(),ARM=1.124,
+  bones=D.bones.map(b=>{const o=new T.Bone();o.name=b.n;return o}),nm={};
+ D.bones.forEach((b,i)=>{nm[b.n]=i;if(b.p>=0)bones[b.p].add(bones[i]);else G.add(bones[i])});
+ const B=n=>bones[nm[n]],reset=()=>{bones.forEach((o,i)=>{o.position.set(...D.bones[i].pos);o.quaternion.set(...D.bones[i].q);o.scale.set(1,1,1)});B('L_Upperarm').scale.setScalar(ARM);B('R_Upperarm').scale.setScalar(ARM)};
+ const ibm=new Float32Array(bin,D.ibm[0],D.joints.length*16),inv=D.joints.map((_,k)=>new T.Matrix4().fromArray(ibm,k*16)),skeleton=new T.Skeleton(D.joints.map(g=>bones[g]),inv);
+ const mids=D.muscles,uAmt={value:new Float32Array(16)},uTint={value:Array.from({length:16},()=>new T.Color())};
+ const skin=new T.MeshStandardMaterial({color:0xd2a487,roughness:.6,metalness:0});
+ const tint=m=>m.onBeforeCompile=sh=>{sh.uniforms.uAmt=uAmt;sh.uniforms.uTint=uTint;
+  sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute vec4 aMus;varying vec3 vMus;').replace('#include <begin_vertex>','#include <begin_vertex>\nvMus=aMus.xyz;');
+  sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uAmt[16];uniform vec3 uTint[16];varying vec3 vMus;').replace('#include <color_fragment>','#include <color_fragment>\n int ia=int(vMus.x+.5),ib=int(vMus.y+.5);float wb=vMus.z/255.;float aa=uAmt[ia]*(1.-wb),ab=uAmt[ib]*wb,tw=aa+ab;vec3 tc=(uTint[ia]*aa+uTint[ib]*ab)/max(tw,1e-4);diffuseColor.rgb=mix(diffuseColor.rgb,tc,clamp(tw,0.,1.));')};
+ tint(skin);const boxm=new T.MeshStandardMaterial({color:0x3b4a66,roughness:.8});tint(boxm);
+ const mats={body:skin,boxers:boxm,eyes:new T.MeshStandardMaterial({color:0x2a1c14,roughness:.3})};
+ D.meshes.forEach(m=>{const g=new T.BufferGeometry();
+  g.setAttribute('position',new T.BufferAttribute(new Float32Array(bin,m.pos[0],m.count*3),3));g.setAttribute('normal',new T.BufferAttribute(new Float32Array(bin,m.nrm[0],m.count*3),3));
+  g.setAttribute('skinIndex',new T.BufferAttribute(new Uint8Array(bin,m.jnt[0],m.count*4),4));g.setAttribute('skinWeight',new T.BufferAttribute(new Uint8Array(bin,m.wgt[0],m.count*4),4,true));
+  if(m.mus)g.setAttribute('aMus',new T.BufferAttribute(new Uint8Array(bin,m.mus[0],m.count*4),4));
+  g.setIndex(new T.BufferAttribute(new Uint16Array(bin,m.idx[0],m.idx[1]/2),1));
+  const sm=new T.SkinnedMesh(g,mats[m.name]);sm.frustumCulled=false;sm.castShadow=true;G.add(sm);sm.bind(skeleton,new T.Matrix4())});
+ /* rest data (after the arm scale) */
+ reset();G.updateMatrixWorld(true);
+ const wp=o=>new T.Vector3().setFromMatrixPosition(o.matrixWorld),wq=o=>o.getWorldQuaternion(new T.Quaternion()),rP={},rQ={};
+ bones.forEach(o=>{rP[o.name]=wp(o);rQ[o.name]=wq(o)});
+ const dist=(a,b)=>rP[a].distanceTo(rP[b]),LEN={};['L','R'].forEach(s=>{LEN[s]={ua:dist(s+'_Upperarm',s+'_Forearm'),fa:dist(s+'_Forearm',s+'_Hand'),th:dist(s+'_Thigh',s+'_Calf'),cf:dist(s+'_Calf',s+'_Foot')}});
+ const basisQ=(a,p)=>{const e1=a.clone().normalize();let e2=p.clone().addScaledVector(e1,-p.dot(e1));if(e2.lengthSq()<1e-6){e2=new T.Vector3(Math.abs(e1.y)<.9?0:1,Math.abs(e1.y)<.9?1:0,0);e2.addScaledVector(e1,-e2.dot(e1))}e2.normalize();
+  return new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(e1,e2,new T.Vector3().crossVectors(e1,e2)))};
+ const setWorld=(o,q,pos)=>{const pm=o.parent.matrixWorld;if(pos)o.position.copy(pos).applyMatrix4(new T.Matrix4().copy(pm).invert());o.quaternion.copy(o.parent.getWorldQuaternion(new T.Quaternion()).invert().multiply(q));o.updateMatrixWorld(true)};
+ const aim=(name,child,aD,pD,pR)=>{const aR=rP[child].clone().sub(rP[name]),d=basisQ(aD,pD).multiply(basisQ(aR,pR).invert());setWorld(B(name),d.clone().multiply(rQ[name]));return d};
+ const armP=new T.Vector3(-1,0,0),legP=new T.Vector3(1,0,0),up=new T.Vector3(0,1,0),X=new T.Vector3(1,0,0);
+ const amber=new T.Color().setStyle('#f7a927'),blue=new T.Color().setStyle('#6cb4ee'),tmp=new T.Color();
+ function update(sk,mu=new Set(),heat=null){
+  reset();G.updateMatrixWorld(true);
+  const u=V3(sk.u),lat=new T.Vector3(0,0,sk.sup?-1:1),fwd=new T.Vector3().crossVectors(u,new T.Vector3(0,0,1));if(sk.sup)fwd.negate();
+  const Rq=new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(fwd,u,lat)),hipMid=rP.L_Thigh.clone().add(rP.R_Thigh).multiplyScalar(.5),
+   hip=B('Hip'),pos=V3(sk.H).add(rP.Hip.clone().sub(hipMid).applyQuaternion(Rq));
+  setWorld(hip,Rq.clone().multiply(rQ.Hip),pos);
+  [[sk.L[0],sk.sup?'L':'R'],[sk.L[1],sk.sup?'R':'L']].forEach(([l,s])=>{
+   const ua=B(s+'_Upperarm'),W=V3(l.w),pe=V3(l.pe),P0=wp(ua),E=V3(ik([P0.x,P0.y,P0.z],l.w,LEN[s].ua,LEN[s].fa,l.pe,'M'+s+'e'));
+   aim(s+'_Upperarm',s+'_Forearm',E.clone().sub(P0),pe,armP);
+   const P1=wp(B(s+'_Forearm')),dfa=aim(s+'_Forearm',s+'_Hand',W.clone().sub(P1),pe,armP),hq=dfa.clone().multiply(rQ[s+'_Hand']);
+   if(l.w[1]<6){const a=W.clone().sub(P1).normalize(),nR=new T.Vector3(0,0,s==='R'?-1:1).applyQuaternion(dfa),nT=new T.Vector3(0,-1,0),pa=nR.clone().addScaledVector(a,-nR.dot(a)),pb=nT.clone().addScaledVector(a,-nT.dot(a));
+    if(pa.lengthSq()>1e-6&&pb.lengthSq()>1e-6){const ang=Math.atan2(new T.Vector3().crossVectors(pa,pb).dot(a),pa.dot(pb));hq.premultiply(new T.Quaternion().setFromAxisAngle(a,ang))}}
+   setWorld(B(s+'_Hand'),hq);
+   const th=B(s+'_Thigh'),H0=wp(th),F=V3(l.f),pk=V3(l.pk),K=V3(ik([H0.x,H0.y,H0.z],l.f,LEN[s].th,LEN[s].cf,l.pk,'M'+s+'k'));
+   aim(s+'_Thigh',s+'_Calf',K.clone().sub(H0),pk,legP);
+   const K1=wp(B(s+'_Calf'));aim(s+'_Calf',s+'_Foot',F.clone().sub(K1),pk,legP);
+   const horiz=Math.abs(sk.u[1])<.7,y=l.f[1];let fa=rP[s+'_ToeBase'].clone().sub(rP[s+'_Foot']);
+   if(sk.sup)fa=y<5?new T.Vector3(.98,-.15,0):new T.Vector3(-.3,.95,0);else if(horiz&&y<5)fa=new T.Vector3(.3,-.95,0);else if(l.fd[1]<-.05)fa=V3(l.fd);
+   aim(s+'_Foot',s+'_ToeBase',fa,up,up)});
+  /* muscle tint uniforms */
+  uAmt.value.fill(0);mids.forEach((t,i)=>{let a=0,c=null;
+   if(heat){const v=heat[t]||0;if(v){const h=heatCol(v);c=tmp.setRGB(h[0]/255,h[1]/255,h[2]/255,T.SRGBColorSpace);a=.92}}
+   else{const MP=mu.p||mu,MS=mu.s||new Set();if(MP.has(t)){c=amber;a=.9}else if(MS.has(t)){c=blue;a=.8}}
+   if(c){uTint.value[i].copy(c);uAmt.value[i]=a}});
+ }
+ return{group:G,update};
+}
 function stage(cv){
  const T=THREE,r=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
  r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
- const sc=new T.Scene(),cam=new T.PerspectiveCamera(22,1,10,3000),fig=figure(T),sun=new T.DirectionalLight(0xffffff,2.2);
+ const sc=new T.Scene(),cam=new T.PerspectiveCamera(22,1,10,3000),fig=MODEL?humanFigure(T,MODEL.d,MODEL.b):figure(T),sun=new T.DirectionalLight(0xffffff,2.2);
  sun.position.set(80,160,120);sun.target.position.set(120,0,0);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.bias=-.0008;
  Object.assign(sun.shadow.camera,{left:-130,right:130,top:130,bottom:-130,near:10,far:500});
  sc.add(new T.HemisphereLight(0xffffff,0x39404d,1.25),sun,sun.target,fig.group);
